@@ -16,7 +16,6 @@ const { fifaData } = require('./fifa.js')
 
 //(e) 2014 Dünya kupası finali kazananı*/
 
-
 /*  Görev 2: 
 	Finaller adlı fonksiyonu kullanarak aşağıdakileri uygulayın:
 	1. Bir dizi(array) olan Fifa datasını fonksiyonun birinci parametresi olarak alacak
@@ -25,10 +24,12 @@ const { fifaData } = require('./fifa.js')
 	💡 İPUCU - verilen data içindeki nesnelerin(objects) "Stage" anahtarına bakmalısınız
 */
 
-function Finaller(/* kodlar buraya */) {
+function Finaller(data) {
 	
-    /* kodlar buraya */
+	let finalMaclari = data.filter(item => item.Stage == "Final")
+	return finalMaclari;
 }
+
 
 
 
@@ -39,10 +40,16 @@ function Finaller(/* kodlar buraya */) {
 	3. Finaller data setindeki tüm yılları içeren "years" adındaki diziyi(array) döndürecek
 	*/
 
-function Yillar(/* kodlar buraya */) {
-	
-    /* kodlar buraya */
-}
+	function Yillar(veri, callback) {
+
+		let yillar = callback(veri).map(item =>{
+			return item.Year;
+		})
+		
+	return yillar;
+	}
+
+
 
 
 /*  Görev 4: 
@@ -53,11 +60,22 @@ function Yillar(/* kodlar buraya */) {
 	💡 İPUCU: Beraberlikler(ties) için şimdilik endişelenmeyin (Detaylı bilgi için README dosyasına bakabilirsiniz.)
 	4. Tüm kazanan ülkelerin isimlerini içeren `kazananlar` adında bir dizi(array) döndürecek(return)  */ 
 
-function Kazananlar(/* kodlar buraya */) {
-	
-    /* kodlar buraya */
-	
-}
+	function Kazananlar(veri2, callback) {
+		let finaller = callback(veri2);
+		let kazananlar = [];
+		finaller.forEach(item =>{
+			
+			if(item['Home Team Name']>item['Away Team Name']){
+				kazananlar.push(item["Home Team Name"])
+			} else if (item['Home Team Name']>item['Away Team Name']){
+				kazananlar.push(item["Away Team Name"])
+			} else {
+				let kelimeler = item['Win conditions'].split(" ");
+				kazananlar.push(kelimeler[0]);
+			}
+		})
+		return kazananlar;
+	}
 
 
 
@@ -72,10 +90,19 @@ function Kazananlar(/* kodlar buraya */) {
 	💡 İPUCU: her cümlenin adım 4'te belirtilen cümleyle birebir aynı olması gerekmektedir.
 */
 
-function YillaraGoreKazananlar(/* kodlar buraya */) {
-	
-/* kodlar buraya */
+function YillaraGoreKazananlar(data, cb_finaller, cb_yillar, cb_kazananlar) {
 
+	let finalMetin = [];
+	let yillar = cb_yillar(data, cb_finaller);
+	let kazananlar = cb_kazananlar(data, cb_finaller);
+	yillar.forEach((item, i) => {
+		finalMetin.push(`${item} yılında, ${kazananlar[i]} dünya kupasını kazandı!`);
+
+	})
+
+
+
+	return finalMetin;
 }
 
 
@@ -93,11 +120,12 @@ function YillaraGoreKazananlar(/* kodlar buraya */) {
 	
 */
 
-function OrtalamaGolSayisi(/* kodlar buraya */) {
+function OrtalamaGolSayisi(Finaller) {
 	
-    /* kodlar buraya */
-	
-}
+	let finalToplamGol=Finaller.reduce((total,item)=> (total + item["Home Team Goals"] +  item["Away Team Goals"]),0 )
+	let sonuc= (finalToplamGol/(Finaller.length)).toFixed(2)
+	return sonuc;
+  }
 
 
 
