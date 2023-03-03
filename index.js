@@ -113,7 +113,7 @@ function YillaraGoreKazananlar(data, cb_finaller, cb_yillar, cb_kazananlar) {
 	let yillar = cb_yillar(data, cb_finaller);
 	let kazananlar = cb_kazananlar(data, cb_finaller);
 	kazananlar.forEach((item, i)=> {
-		arr.push(`${yillar[i]} yilinda, ${item} dünya kupasini kazandi!`);
+		arr.push(`${yillar[i]} yılında, ${item} dünya kupasını kazandı!`);
 	})
 	return arr;
 }
