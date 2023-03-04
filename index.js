@@ -151,12 +151,32 @@ console.log(OrtalamaGolSayisi(Finaller(fifaData)));
 	İpucu: "takım kısaltmaları" (team initials) için datada araştırma yapın!
 İpucu: `.reduce` Kullanın*/
 
-function UlkelerinKazanmaSayilari(/* kodlar buraya */) {
-	
-    /* kodlar buraya */
-	
-}
+let initials = [];
+let kazananTakimlar = {};
+Finaller(fifaData).forEach(i => {
+	if(!initials.includes(i["Home Team Initials"])){
+		initials.push(i["Home Team Initials"]);
+		kazananTakimlar[i["Home Team Initials"]] = 0;
+	}
+	if(!initials.includes(i["Away Team Initials"])){
+		initials.push(i["Away Team Initials"]);
+		kazananTakimlar[i["Away Team Initials"]] = 0;
+	}
+})
+console.log(initials)
+console.log(kazananTakimlar)
 
+function UlkelerinKazanmaSayilari(data){
+	Finaller(data).forEach((i) => {
+		if(i["Home Team Goals"] > i["Away Team Goals"]){
+			kazananTakimlar[["Home Team Initials"]]++
+		} else {
+			kazananTakimlar[i["Away Team Initials"]]++
+		}
+	})
+}
+UlkelerinKazanmaSayilari(fifaData);
+console.log(kazananTakimlar);
 
 
 /*  BONUS 2:  
