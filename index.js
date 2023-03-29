@@ -141,7 +141,7 @@ function OrtalamaGolSayisi(Finaller, fifaData) {
 }
 
 
-console.log(OrtalamaGolSayisi(Finaller(fifaData)));
+console.log(OrtalamaGolSayisi(Finaller(fifaData)));                       
 
 
 /// EKSTRA ÇALIŞMALAR ///
