@@ -8,13 +8,42 @@ const { fifaData } = require('./fifa.js')
 
 //(a) 2014 Dünya kupası Finali Evsahibi takım ismi (dizide "Home Team Name" anahtarı)
 
+// Year özelliği 2014 ve Stage özelliği "Final" olan maçları sececegiz. Yani 2014 yilinda oynanan finalleri filtreleyecegiz.
+
+const filteredFifaData = fifaData.filter(match => match.Year === 2014 && match.Stage === "Final");
+
+// Eger filtreleyerek olusturdugumuz yeni dizide herhangi bir veri yoksa mac bulunamadi, var ise o verinin Home Team Name'ini yazdiracagiz
+
+const homeTeamName = filteredFifaData.length > 0 ? filteredFifaData[0]["Home Team Name"] : "Maç bulunamadı"; 
+
+console.log("(a) 2014 Dünya Kupası Finali Evsahibi takım ismi:", homeTeamName);
+
+
 //(b) 2014 Dünya kupası Finali Deplasman takım ismi  (dizide "Away Team Name" anahtarı)
+
+const awayTeamName = filteredFifaData.length > 0 ? filteredFifaData[0]["Away Team Name"] : "Maç bulunamadı"; 
+
+console.log("(b) 2014 Dünya Kupası Finali Deplasman takım ismi:", awayTeamName);
 
 //(c) 2014 Dünya kupası finali Ev sahibi takım golleri (dizide "Home Team Goals" anahtarı)
 
+const homeTeamGoals = filteredFifaData.length > 0 ? filteredFifaData[0]["Home Team Goals"] : "Maç bulunamadı"; 
+
+console.log("(c) 2014 Dünya Kupası Finali Ev Sahibi Takim Golleri:", homeTeamGoals);
+
 //(d)2014 Dünya kupası finali Deplasman takım golleri  (dizide "Away Team Goals" anahtarı)
 
+const awayTeamGoals = filteredFifaData.length > 0 ? filteredFifaData[0]["Away Team Goals"] : "Maç bulunamadı"; 
+
+console.log("(d) 2014 Dünya Kupası Finali Deplasman Takim Golleri:", awayTeamGoals);
+
 //(e) 2014 Dünya kupası finali kazananı*/
+
+const winConditions = filteredFifaData.length > 0 ? filteredFifaData[0]["Win conditions"] : "Maç bulunamadı"; 
+
+console.log("(d) 2014 Dünya Kupası Finali Kazanani", winConditions);
+
+
 
 
 /*  Görev 2: 
@@ -25,10 +54,18 @@ const { fifaData } = require('./fifa.js')
 	💡 İPUCU - verilen data içindeki nesnelerin(objects) "Stage" anahtarına bakmalısınız
 */
 
-function Finaller(/* kodlar buraya */) {
-	
-    /* kodlar buraya */
+function Finaller(fifaData) {
+
+// FifaData verilerini filtreleyerek sadece final maçlarını aliyoruz
+const finalMaclar = fifaData.filter(match => match.Stage === "Final");
+
+return finalMaclar;
+
 }
+
+console.log(Finaller(fifaData));
+
+
 
 
 
@@ -39,10 +76,9 @@ function Finaller(/* kodlar buraya */) {
 	3. Finaller data setindeki tüm yılları içeren "years" adındaki diziyi(array) döndürecek
 	*/
 
-function Yillar(/* kodlar buraya */) {
+function Yillar(fifaData, Finaller) {
 	
-    /* kodlar buraya */
-}
+	}
 
 
 /*  Görev 4: 
@@ -53,11 +89,11 @@ function Yillar(/* kodlar buraya */) {
 	💡 İPUCU: Beraberlikler(ties) için şimdilik endişelenmeyin (Detaylı bilgi için README dosyasına bakabilirsiniz.)
 	4. Tüm kazanan ülkelerin isimlerini içeren `kazananlar` adında bir dizi(array) döndürecek(return)  */ 
 
-function Kazananlar(/* kodlar buraya */) {
+    function Kazananlar(fifaData, Finaller) {
 	
-    /* kodlar buraya */
-	
-}
+    }
+
+
 
 
 
@@ -120,7 +156,7 @@ function UlkelerinKazanmaSayilari(/* kodlar buraya */) {
 /*  BONUS 2:  
 EnCokGolAtan() isminde bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupası finallerinde en çok gol atan takımı döndürsün */
 
-function EnCokGolAtan(/* kodlar buraya */) {
+function EnCokGolAtan(fifaData) {
 	
     /* kodlar buraya */
 	
