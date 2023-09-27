@@ -8,13 +8,24 @@ const { fifaData } = require('./fifa.js')
 
 //(a) 2014 Dünya kupası Finali Evsahibi takım ismi (dizide "Home Team Name" anahtarı)
 
+const final2014 = fifaData.filter((item)=>{
+	return item.Stage === "Final" && item.Year === 2014;
+
+})
+console.log(final2014[0]["Home Team Name"]);
 //(b) 2014 Dünya kupası Finali Deplasman takım ismi  (dizide "Away Team Name" anahtarı)
-
+console.log(final2014[0]["Away Team Name"]);
 //(c) 2014 Dünya kupası finali Ev sahibi takım golleri (dizide "Home Team Goals" anahtarı)
-
+console.log(final2014[0]["Home Team Goals"]);
 //(d)2014 Dünya kupası finali Deplasman takım golleri  (dizide "Away Team Goals" anahtarı)
-
+console.log(final2014[0]["Away Team Goals"]);
 //(e) 2014 Dünya kupası finali kazananı*/
+if (final2014[0]["Away Team Goals"] < final2014[0]["Home Team Goals"]) {
+	console.log("Winner:", final2014[0]["Home Team Name"]);
+}
+else {
+	console.log("Winner:", final2014[0]["Away Team Name"]);
+}
 
 
 /*  Görev 2: 
@@ -25,10 +36,14 @@ const { fifaData } = require('./fifa.js')
 	💡 İPUCU - verilen data içindeki nesnelerin(objects) "Stage" anahtarına bakmalısınız
 */
 
-function Finaller(/* kodlar buraya */) {
-	
-    /* kodlar buraya */
+function Finaller(finalArr) {
+	const finals = finalArr.filter((item)=>{
+		return item.Stage === "Final"
+	})
+    return finals;
 }
+console.log(Finaller(fifaData));
+
 
 
 
@@ -39,10 +54,17 @@ function Finaller(/* kodlar buraya */) {
 	3. Finaller data setindeki tüm yılları içeren "years" adındaki diziyi(array) döndürecek
 	*/
 
-function Yillar(/* kodlar buraya */) {
-	
-    /* kodlar buraya */
-}
+	function Yillar(dataArr, callback) {
+		const years = [];
+		const finals = callback(dataArr);
+		for(let i=0; i < finals.length; i++) {
+			years.push(finals[i].Year)
+		}
+		return years;
+	}
+	console.log(Yillar(fifaData, Finaller));
+
+
 
 
 /*  Görev 4: 
@@ -53,12 +75,20 @@ function Yillar(/* kodlar buraya */) {
 	💡 İPUCU: Beraberlikler(ties) için şimdilik endişelenmeyin (Detaylı bilgi için README dosyasına bakabilirsiniz.)
 	4. Tüm kazanan ülkelerin isimlerini içeren `kazananlar` adında bir dizi(array) döndürecek(return)  */ 
 
-function Kazananlar(/* kodlar buraya */) {
-	
-    /* kodlar buraya */
-	
-}
-
+	function Kazananlar(dataArr, callback) {
+		let winnersArr = []
+		const finals = callback(dataArr);
+		for (let i = 0; i < finals.length; i++) {
+			if (finals[i]["Away Team Goals"] < finals[i]["Home Team Goals"]) {
+			winnersArr.push(finals[i]["Home Team Name"]);
+			}
+			else {
+			winnersArr.push(finals[i]["Away Team Name"]);
+			}	
+		}
+		return winnersArr;
+	}
+	console.log(Kazananlar(fifaData, Finaller));
 
 
 /*  Görev 5: 
@@ -72,11 +102,17 @@ function Kazananlar(/* kodlar buraya */) {
 	💡 İPUCU: her cümlenin adım 4'te belirtilen cümleyle birebir aynı olması gerekmektedir.
 */
 
-function YillaraGoreKazananlar(/* kodlar buraya */) {
-	
-/* kodlar buraya */
-
-}
+	function YillaraGoreKazananlar(data, finaller, yillar, kazananlar) {
+		let result = [];
+		let years = yillar(data, finaller);
+		let winners = kazananlar(data, finaller);
+		for (let i=0; i < years.length; i++) {
+			const text = `${years[i]} yılında, ${winners[i]} dünya kupasını kazandı!`	
+				result.push(text);
+			}
+		return result;
+	}
+	console.log(YillaraGoreKazananlar(fifaData, Finaller, Yillar, Kazananlar));
 
 
 /*  Görev 6: 
@@ -93,13 +129,16 @@ function YillaraGoreKazananlar(/* kodlar buraya */) {
 	
 */
 
-function OrtalamaGolSayisi(/* kodlar buraya */) {
-	
-    /* kodlar buraya */
+function OrtalamaGolSayisi(finaller) {
+	const totalGoal = finaller.reduce((total, item)=>{
+		const matchGoal = item["Home Team Goals"] + item["Away Team Goals"]
+		return total + matchGoal
+	}, 0)
+	const average = totalGoal/finaller.length;
+	return average.toFixed(2)
 	
 }
-
-
+console.log(OrtalamaGolSayisi(Finaller(fifaData)));
 
 /// EKSTRA ÇALIŞMALAR ///
 
@@ -115,6 +154,7 @@ function UlkelerinKazanmaSayilari(/* kodlar buraya */) {
 	
 }
 
+//ülkelerin kazanma sayısı için array yeterli bir depolama alanı değil. böyle bir datayı kullanabilmek için objeler(key-value) kullanmalıyım.
 
 
 /*  BONUS 2:  
